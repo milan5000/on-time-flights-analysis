@@ -1,7 +1,10 @@
 [project]
-name = "backend"
+name = "on-time-flights-analysis-backend"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
+description = "All backend code for the on-time flights analysis project."
+readme = "../README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "fastapi[standard]>=0.135.2",
+    "pydantic>=2.12.5",
+]
