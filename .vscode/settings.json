@@ -1,0 +1,7 @@
+{
+  "python.analysis.extraPaths": [
+    "backend/.venv/lib/python3.14/site-packages",
+    "utils/.venv/lib/python3.14/site-packages"
+  ],
+  "python.analysis.typeCheckingMode": "strict"
+}
