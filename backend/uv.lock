@@ -216,6 +216,12 @@ wheels = [
 ]
 
 [[package]]
+name = "hotqueue"
+version = "0.2.8"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/10/51/629a6e2b02ace12138444cc7751a626c86076b1d12e2cd517dc56f415d1e/hotqueue-0.2.8.tar.gz", hash = "sha256:17c4676bd7141191df667fcf0b53824bdfbea30f0147df7903c7ac61633f703a", size = 9707, upload-time = "2017-11-30T22:29:57.23Z" }
+
+[[package]]
 name = "httpcore"
 version = "1.0.9"
 source = { registry = "https://pypi.org/simple" }
@@ -346,6 +352,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "duckdb" },
     { name = "fastapi", extra = ["standard"] },
+    { name = "hotqueue" },
     { name = "pydantic" },
     { name = "redis" },
 ]
@@ -359,6 +366,7 @@ dev = [
 requires-dist = [
     { name = "duckdb", specifier = ">=1.5.1" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.135.2" },
+    { name = "hotqueue", specifier = ">=0.2.8" },
     { name = "pydantic", specifier = ">=2.12.5" },
     { name = "redis", specifier = ">=7.4.0" },
 ]
