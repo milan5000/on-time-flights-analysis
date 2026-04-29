@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: final-project-redis-service-test 
+    namespace: connorfeng
+spec:
+    type: ClusterIP
+    selector:
+        app: final-project-redis-test 
+    ports:
+        - port: 6379
+          targetPort: 6379
