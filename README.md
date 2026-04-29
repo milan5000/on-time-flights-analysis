@@ -4,11 +4,22 @@ This project provides a platform for analyzing historical data for flight on-tim
 
 ## Features
 
-Come back soon for details!
+- A FastAPI backend loads Bureau of Transportation Statistics flight records into Redis and exposes routes for raw data, individual flight lookup, queued analysis jobs, job results, and generated heatmap images.
+- A Redis-backed worker processes origin/destination/date analysis jobs and summarizes flight counts, average delays, cancellations, diversions, and matching flight records.
+- A Next.js dashboard in `frontend` supports exploratory analysis with filters, summary cards, delay breakdowns, a US route-delay map, a sortable flight table, and a backend job runner.
 
 ## Usage
 
-Come back soon for details!
+Run the backend services separately using the backend instructions, then start the frontend from `frontend`:
+
+```bash
+bun install
+bun --bun run dev
+```
+
+The frontend proxies `/api/*` requests to the FastAPI backend, which defaults to `http://localhost:8000`. Use `BACKEND_URL` to point the dashboard at a different backend host.
+
+After opening the frontend, use **Load Data** to call the backend `/data` route, then use the filters and visualizations to explore route-level and time-based delay patterns. The backend analysis panel can submit queued worker jobs and display their returned summaries and heatmap images.
 
 ## Developer Instructions
 
@@ -22,8 +33,14 @@ To set up `frontend`, run `bun install` in the directory. Detailed instructions 
 
 ### Testing & Deployment
 
-Come back soon for details!
+Backend testing instructions are documented in [backend/README.md](./backend/README.md). For frontend checks, run the following from `frontend`:
+
+```bash
+bun run lint
+bun test
+bun run build
+```
 
 ### Detailed Usage
 
-Come back soon for details!
+See [frontend/README.md](./frontend/README.md) for dashboard-specific usage and proxy details.
