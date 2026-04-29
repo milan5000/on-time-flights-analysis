@@ -2,4 +2,5 @@
 .env
 backend/data/*
 !backend/data/sample/
+!backend/data/dec_2025_data_trunc.csv
 temp/
