@@ -1,5 +1,5 @@
 .DS_Store
 .env
-data/*
-!data/sample/
+backend/data/*
+!backend/data/sample/
 temp/
