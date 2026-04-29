@@ -17,18 +17,18 @@ WORKDIR /code
 
 RUN uv add fastapi[standard] pydantic pytest argparse requests xmltodict redis hotqueue matplotlib seaborn pandas
 
-COPY ./src/app.py /code/app.py
+COPY ./app.py /code/app.py
 
-COPY ./src/jobs.py /code/jobs.py
+COPY ./jobs.py /code/jobs.py
 
-COPY ./src/worker.py /code/worker.py
+COPY ./worker.py /code/worker.py
 
 COPY ./data/dec_2025_data.csv /code/data/dec_2025_data.csv
 
-COPY ./test/test_app.py /code/test/test_app.py
+COPY ./test_api.py /code/test/test_api.py
 
-COPY ./test/test_jobs.py /code/test/test_jobs.py
+COPY ./test_jobs.py /code/test/test_jobs.py
 
-COPY ./test/test_worker.py /code/test/test_worker.py
+COPY ./test_worker.py /code/test/test_worker.py
 
 CMD ["uv", "run", "--", "fastapi", "dev",  "--host", "0.0.0.0", "app.py"]

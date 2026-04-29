@@ -294,7 +294,7 @@ As you can see, our dataset has 14 flights from Austin to Dallas-Fort Worth on J
 To see the logging in our code, while still running the docker containers, type in the command:
 
 ```bash
-docker logs homework08-api
+docker logs final-project-api-test
 
 ```
 
@@ -315,7 +315,7 @@ docker logs homework08-api
 and also
 
 ```bash
-docker logs homework08-worker
+docker logs final-project-worker-test
 
 ```
 
