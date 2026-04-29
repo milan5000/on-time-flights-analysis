@@ -45,7 +45,7 @@ jdb=redis.Redis(host=REDIS_HOST,port=6379,db=1,decode_responses=True)
 # queue living in same redis service
 q=HotQueue("queue",host=REDIS_HOST,port=6379,db=1)
 # results database
-rdb = redis.Redis(host=REDIS_HOST,port=6379,db=3,decode_responses=True)
+rdb = redis.Redis(host=REDIS_HOST,port=6379,db=3,decode_responses=False)
 
 def _generate_jid() -> str:
     """
@@ -54,8 +54,8 @@ def _generate_jid() -> str:
     logger.debug("Generating new job ID")
     return str(uuid.uuid4())
 
-def _save_result(jid:str,results:dict)->bool:
-    rdb.set(jid,json.dumps(results))
+def _save_result(jid: str, results: dict) -> bool:
+    rdb.set(f"result:{jid}", json.dumps(results).encode())
     return True
 
 def _instantiate_job(jid: str, status: JobStatus, origin: str, dest: str, date: str) -> JobRequest:
@@ -92,8 +92,8 @@ def get_job_by_id(jid: str)->JobRequest:
     return JobRequest(**loadedData)
 
 
-def get_result_by_id(jid:str)->dict|None:
-    data=rdb.get(jid)
+def get_result_by_id(jid: str) -> dict | None:
+    data = rdb.get(f"result:{jid}")
     if data:
         return json.loads(data)
     return None
@@ -131,3 +131,12 @@ def update_job_status(jid: str, status: JobStatus) -> bool:
     else:
         logger.error(f"Job not found: {jid}")
         raise Exception()
+    
+
+
+def _save_result_image(jid: str, image_bytes: bytes) -> bool:
+    rdb.set(f"image:{jid}", image_bytes)
+    return True
+
+def get_result_image_by_id(jid: str) -> bytes | None:
+    return rdb.get(f"image:{jid}")
