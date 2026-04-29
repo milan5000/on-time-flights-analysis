@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: final-project-api-service-test
+    namespace: connorfeng
+spec:
+    type: NodePort
+    selector:
+        app: final-project-api-test
+    ports:
+        - port: 8000
+          targetPort: 8000
