@@ -4,27 +4,82 @@
 
 This project builds a containerized FastAPI application that interfaces with a **flight dataset**. The application reads flight records from a CSV file, stores them in a **Redis database**, and exposes **REST endpoints** for querying and managing the data.
 
-The system also supports an ** job queue** powered by Redis and HotQueue. Users can submit jobs to query flight data, which are processed in the background by a dedicated worker container.
+The system also supports an **job queue** powered by Redis and HotQueue. Users can submit jobs to query flight data, which are processed in the background by a dedicated worker container.
 
 The entire system is containerized using Docker and orchestrated with Docker Compose — deploy everything with a single command.
 
-Sourced from the [Bureau of Transportation Statistics](https://transtats.bts.gov/Fields.asp?gnoyr_VQ=FGK)
+Data sourced from the [Bureau of Transportation Statistics](https://transtats.bts.gov/Fields.asp?gnoyr_VQ=FGK).
 
 ---
 
 ## Project Files
 
+Main Backend Files
 - `app.py`: Main FastAPI application. Defines all routes, CSV parsing logic, Redis interactions, and Pydantic models.
 - `jobs.py`: Shared job logic. Defines job models, status enums, Redis/queue clients, and helper functions used by both the API and worker.
 - `worker.py`: Background worker. Watches the job queue and processes jobs as they arrive.
+
+Docker
 - `Dockerfile`: Defines the container environment shared by the API and worker.
 - `docker-compose.yml`: Orchestrates the API, worker, and Redis containers together.
-- `data/small_sample_data.csv`: Local flight dataset used for loading data.
-- `/test/test_api.py`: Test the FastAPI Routes
-- `/test/test_jobs.py`: Tests the functions in jobs
-- `/test/test_worker.py`: Tests the worker
-- `README.md`: Project documentation. THIS FILE
 
+Dependencies and Version Controls
+- `uv.lock`:Locked dependency versions for reproducible installs
+- `.python-version`: Pins the Python version used by uv
+- `pyproject.toml`: Project metadata and dependencies
+
+Data
+- `data/small_sample_data.csv`: Local flight dataset used for loading data.
+
+Tests
+- `test_api.py`: Test the FastAPI Routes
+- `test_jobs.py`: Tests the functions in jobs
+- `test_worker.py`: Tests the worker
+- `README.md`: Project documentation. THIS FILE
+---
+
+## Running the Application
+
+From the project directory:
+
+```bash
+docker compose up -d --build
+```
+
+This will:
+- Start the Redis on port `6379`
+- Start the FastAPI on port `8000`
+- Start the background worker listening for jobs
+
+To shut everything down:
+
+```bash
+docker compose down
+```
+
+---
+
+## API Reference
+ 
+### Data Routes
+ 
+| Method | Route | Description |
+|--------|-------|-------------|
+| `POST` | `/data` | Load CSV flight data into Redis |
+| `GET` | `/data` | Return all flight records from Redis |
+| `DELETE` | `/data` | Delete all flight records from Redis |
+| `GET` | `/flights` | Return all flight IDs |
+| `GET` | `/flights/{flight_id}` | Return one flight record by ID |
+ 
+### Job Routes
+ 
+| Method | Route | Description |
+|--------|-------|-------------|
+| `POST` | `/jobs` | Submit a new analysis job |
+| `GET` | `/jobs` | Return all job IDs |
+| `GET` | `/jobs/{jid}` | Return job status and metadata |
+| `GET` | `/results/{jid}` | Return job results when complete |
+| `GET` | `/results/{jid}/image` | Return heatmap PNG image for a completed job |
 ---
 
 ## Data
@@ -46,30 +101,7 @@ The dataset may contain missing values — the application handles sparse data g
 
 ---
 
-## Running the Application
-
-From the project directory:
-
-```bash
-docker compose up -d --build
-```
-
-This will:
-
-- Build the FastAPI and worker containers
-- Start the Redis container
-- Start the API server on port `8000`
-- Start the background worker listening for jobs
-
-After you are done running the code you can close everything by doing:
-
-```bash
-docker compose down
-```
-
----
-
-## Example API Queries
+## Example Usage
 
 ### 1. Load Data into Redis
 
@@ -278,6 +310,7 @@ Use that job ID you get from the output of the query to put into this next api q
 ```bash
 curl -X GET localhost:8000/results/{job_id}
 ```
+---
 
 **Expected Output:**
 
@@ -287,6 +320,21 @@ curl -X GET localhost:8000/results/{job_id}
 
 As you can see, our dataset has 14 flights from Austin to Dallas-Fort Worth on January 6th, 2025, and there tends to be on average a 30 minute delay for these flights.
 
+### 10. Get Heatmap Image by Job ID
+ 
+Once a job has finished, the worker also generates a heatmap showing average arrival delay, across all flights matching the origin/destination filter (ignoring the date filter so the full week is visible). The image is returned as a PNG.
+ 
+```bash
+curl -X GET localhost:8000/results/{job_id}/image --output heatmap.png
+```
+
+Curl will print a download progress and save the PNG to your current directory.
+ 
+The heatmap are:
+- **X-axis**: Departure hour (0–23)
+- **Y-axis**: Day of week (Mon–Sun)
+- **Cell color**: Average arrival delay in minutes — green = early/on-time, red = delayed
+- **Cell annotation**: Average delay value and flight count, e.g. `12 (5)` means 12 min avg delay across 5 flights.
 ---
 
 ## Logging
