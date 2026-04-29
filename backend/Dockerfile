@@ -15,7 +15,7 @@ RUN uv init /code
 # NOTE: The WORKDIR instruction sets the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow it in the Dockerfile
 WORKDIR /code
 
-RUN uv add fastapi[standard] pydantic pytest argparse requests xmltodict redis hotqueue
+RUN uv add fastapi[standard] pydantic pytest argparse requests xmltodict redis hotqueue matplotlib seaborn pandas
 
 COPY ./src/app.py /code/app.py
 
@@ -23,9 +23,9 @@ COPY ./src/jobs.py /code/jobs.py
 
 COPY ./src/worker.py /code/worker.py
 
-COPY ../data/sample/analysis_subset.csv /code/data/small_sample_data.csv
+COPY ./data/dec_2025_data.csv /code/data/dec_2025_data.csv
 
-COPY ../data/analysis_data.csv /code/data/sample_data.csv
+COPY ../data/sample_data.csv /code/data/sample_data.csv
 
 COPY ./test/test_api.py /code/test/test_api.py
 

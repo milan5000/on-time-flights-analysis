@@ -15,16 +15,17 @@ import redis
 # import requests   # uncomment if ever use URL to load data
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import Response
 from pydantic import BaseModel
 from typing import Any
-from jobs import JobInput, JobRequest, JobStatus, add_job, get_job_by_id, get_result_by_id, jdb
+from jobs import JobInput, JobRequest, JobStatus, add_job, get_job_by_id, get_result_by_id, jdb, get_result_image_by_id
 
 """ API CONNECTION """
 app = FastAPI()
 
 # For now, import local small sample csv to prove the system works
 BASE_DIR=os.path.dirname(__file__)
-DATA_FILE=os.path.join(BASE_DIR,"data","small_sample_data.csv") # TODO: change how this is loaded for prod
+DATA_FILE=os.path.join(BASE_DIR,"data","dec_2025_data.csv")
 # FLIGHT_URL = "PUT_YOUR_URL_HERE"
 
 """ REDIS CONNECTION """
@@ -325,3 +326,17 @@ def get_results(jid:str):
         "status": job.status,
         "result": result
     }
+
+@app.get("/results/{jid}/image")
+def get_result_image(jid: str):
+    job = get_job_by_id(jid)
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    if job.status != JobStatus.SUCCESS:
+        return {"job_id": jid, "status": job.status, "message": "Job is not done yet"}
+
+    image_bytes = get_result_image_by_id(jid)
+    if not image_bytes:
+        raise HTTPException(status_code=404, detail="Image not found")
+
+    return Response(content=image_bytes, media_type="image/png")
