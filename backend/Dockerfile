@@ -25,9 +25,7 @@ COPY ./src/worker.py /code/worker.py
 
 COPY ./data/dec_2025_data.csv /code/data/dec_2025_data.csv
 
-COPY ../data/sample_data.csv /code/data/sample_data.csv
-
-COPY ./test/test_api.py /code/test/test_api.py
+COPY ./test/test_app.py /code/test/test_app.py
 
 COPY ./test/test_jobs.py /code/test/test_jobs.py
 

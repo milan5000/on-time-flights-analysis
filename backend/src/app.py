@@ -28,13 +28,15 @@ BASE_DIR=os.path.dirname(__file__)
 DATA_FILE=os.path.join(BASE_DIR,"data","dec_2025_data.csv")
 # FLIGHT_URL = "PUT_YOUR_URL_HERE"
 
-""" REDIS CONNECTION """
+""" REDDIS CONNECTION """
 # this is base redis for normal data 
-# Redis host may be different depending on if we are testing or deploying
+# Redist host may be different depending on if we are testing or deploying
 REDIS_HOST=os.getenv("REDIS_HOST", "redis-db")
 rd = redis.Redis(host=REDIS_HOST, port=6379, db=0, decode_responses=True)
 # This redis is for jobs
 from jobs import jdb, q
+
+
 
 """ MODEL DEFINITION """
 class Flight(BaseModel):
