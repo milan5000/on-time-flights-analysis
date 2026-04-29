@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: final-project-worker-test 
+  namespace: connorfeng
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: final-project-worker-test 
+  template:
+    metadata:
+      labels:
+        app: final-project-worker-test 
+    spec:
+      containers:
+        - name: final-project-worker-test 
+          image: computationalconnor/final-project-worker:test 
+          env:
+            - name: REDIS_HOST
+              value: final-project-redis-service-test  # points to test redis service
+            - name: LOG_LEVEL
+              value: DEBUG

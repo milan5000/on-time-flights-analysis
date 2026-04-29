@@ -16,7 +16,7 @@ Come back soon for details!
 
 First, make sure you have the appropriate tooling installed. This project uses [Python 3.14](https://www.python.org/) with the [uv project manager](https://docs.astral.sh/uv/) and [Next.js](https://nextjs.org/) with [Bun](https://bun.com/). Users should make sure to install those as appropriate for their system before proceeding.
 
-To set up either of the `backend` and `utils` directories, run `uv sync` and then `source .venv/bin/activate` in whichever you want to use. If using Pylance in VS Code, the `.vscode/settings.json` file should take care of resolving imports; run the "Python: Clear Cache and Reload Window" command if this does not work at first after setting up the environment.
+To set up either of the `backend` and `utils` directories, run `uv sync` and then `source .venv/bin/activate` in whichever you want to use. If using Pylance in VS Code, the `.vscode/settings.json` file should take care of resolving imports; run the "Python: Clear Cache and Reload Window" command if this does not work at first after setting up the environment. For the backend code specifically, please refer to the associated [README](./backend/README.md) file.
 
 To set up `frontend`, run `bun install` in the directory. Detailed instructions for running the frontend are in the associated [README](./frontend/README.md) file.
 
