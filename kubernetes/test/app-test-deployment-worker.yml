@@ -16,6 +16,7 @@ spec:
       containers:
         - name: final-project-worker-test 
           image: computationalconnor/final-project-worker:test 
+          command: ["uv", "run", "worker.py"]
           env:
             - name: REDIS_HOST
               value: final-project-redis-service-test  # points to test redis service
