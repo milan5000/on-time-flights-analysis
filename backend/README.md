@@ -394,4 +394,26 @@ REDIS_HOST=localhost PYTHONPATH=. uv run pytest
 
 ![Alt Text](../docs/diagram.png)
 
+
+## Deploying to Kubernetes
+
+First make sure the docker containers are built and pushed into Dockerhub by doing 
+
+```bash
+docker compose build
+docker compose push
+```
+
+Go to the directry with all of the kubernetes .yml files and run this command
+
+```bash
+kubectl apply -f .
+```
+
+You can view the logs in the pods by running 
+```bash
+kubectl logs deployment/final-project-api-test -n connorfeng
+kubectl logs deployment/final-project-worker-test -n connorfeng
+```
+
 Please let me know if you have any questions! Thanks!
