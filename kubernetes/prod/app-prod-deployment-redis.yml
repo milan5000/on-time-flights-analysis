@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: final-project-redis-test 
+  namespace: connorfeng
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: final-project-redis-test
+  template:
+    metadata:
+      labels:
+        app: final-project-redis-test
+    spec:
+      containers:
+        - name: final-project-redis-test
+          image: redis:7             
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+      volumes:
+        - name: redis-data
+          persistentVolumeClaim:
+            claimName: final-project-redis-pvc-test

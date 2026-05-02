@@ -1,7 +1,7 @@
 services:
   api:
     build: .
-    image: computationalconnor/final-project-api:test  # add this for tagging
+    image: computationalconnor/final-project-api:prod  # add this for tagging
     container_name: final-project-api-test               # no colon, use hyphens
     ports:
       - "8000:8000"
@@ -18,7 +18,7 @@ services:
 
   worker:
     build: .
-    image: computationalconnor/final-project-worker:test  # add this for tagging
+    image: computationalconnor/final-project-worker:prod  # add this for tagging
     container_name: final-project-worker-test
     command: uv run worker.py
     depends_on:
