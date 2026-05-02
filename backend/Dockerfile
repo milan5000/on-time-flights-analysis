@@ -23,8 +23,6 @@ COPY ./jobs.py /code/jobs.py
 
 COPY ./worker.py /code/worker.py
 
-COPY ./data/dec_2025_data.csv /code/data/dec_2025_data.csv
-
 COPY ./data/sample_data.csv /code/data/sample_data.csv
 
 COPY ./test_app.py /code/test/test_app.py

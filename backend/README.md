@@ -108,7 +108,7 @@ The dataset may contain missing values — the application handles sparse data g
 Trigger ingestion from the flight dataset
 
 ```bash
-curl -X POST localhost:8000/data
+curl -X POST http://connorfeng-fastapi.coe332.tacc.cloud/data
 ```
 
 **Expected Output:**
@@ -124,7 +124,7 @@ curl -X POST localhost:8000/data
 Returns all of the flight data in Redis in json.
 
 ```bash
-curl -X GET http://localhost:8000/data
+curl -X GET http://connorfeng-fastapi.coe332.tacc.cloud/data
 ```
 
 **Expected Output:**
@@ -140,7 +140,7 @@ curl -X GET http://localhost:8000/data
 Outputs all of the flight ids in redis as a list.
 
 ```bash
-curl -X GET http://localhost:8000/flights
+curl -X GET http://connorfeng-fastapi.coe332.tacc.cloud/flights
 ```
 
 **Expected Output:**
@@ -185,7 +185,7 @@ curl -X GET http://localhost:8000/flights
 Gives the information about a specific flight, inputing the flight id.
 
 ```bash
-curl -X GET http://localhost:8000/flights/0
+curl -X GET http://connorfeng-fastapi.coe332.tacc.cloud/flights/0
 ```
 
 **Expected Output:**
@@ -226,7 +226,7 @@ curl -X GET http://localhost:8000/flights/0
 Deletes all of the flight data in redis.
 
 ```bash
-curl -X DELETE http://localhost:8000/data
+curl -X DELETE http://connorfeng-fastapi.coe332.tacc.cloud/data
 ```
 
 **Expected Output:**
@@ -244,7 +244,7 @@ This route creates a JobRequest object with our inputs being the origin, dest, a
 Note that the job id that shows up will be different from the one displayed in the README
 
 ```bash
-curl -X POST localhost:8000/jobs  -H "Content-Type: application/json" -d '{"origin": "ABE", "dest": "CLT", "date": "1/6/2025 12:00:00 AM"}'
+curl -X POST http://connorfeng-fastapi.coe332.tacc.cloud/jobs  -H "Content-Type: application/json" -d '{"origin": "ABE", "dest": "CLT", "date": "1/6/2025 12:00:00 AM"}'
 ```
 
 **Expected Output:**
@@ -262,7 +262,7 @@ Returns all of the job_ids in a list.
 Note that the job id that shows up will be different from the one displayed in the README
 
 ```bash
-curl -X GET localhost:8000/jobs
+curl -X GET http://connorfeng-fastapi.coe332.tacc.cloud/jobs
 ```
 
 **Expected Output:**
@@ -280,7 +280,7 @@ Returns the information about the job when you input it's job id, if you run thi
 Based on the job id that was out put from app.get(/jobs), put that id into the curl
 
 ```bash
-curl -X GET localhost:8000/jobs/{job_id}
+curl -X GET http://connorfeng-fastapi.coe332.tacc.cloud/jobs/{job_id}
 ```
 
 **Expected Output:**
@@ -298,7 +298,7 @@ Returns the resuls that the worker retrieved. In our context, it will retrieve a
 First here's an example job to add, we want all of the flights that left on january 6th from Austin to Dallas-Fort Worth, first post the job with this command:
 
 ```bash
-curl -X POST http://localhost:8000/jobs   -H "Content-Type: application/json"   -d '{
+curl -X POST http://connorfeng-fastapi.coe332.tacc.cloud/jobs   -H "Content-Type: application/json"   -d '{
     "origin": "AUS",
     "dest": "DFW",
     "date": "1/6/2025"
@@ -308,7 +308,7 @@ curl -X POST http://localhost:8000/jobs   -H "Content-Type: application/json"   
 Use that job ID you get from the output of the query to put into this next api query:
 
 ```bash
-curl -X GET localhost:8000/results/{job_id}
+curl -X GET http://connorfeng-fastapi.coe332.tacc.cloud/results/{job_id}
 ```
 ---
 
@@ -325,7 +325,7 @@ As you can see, our dataset has 14 flights from Austin to Dallas-Fort Worth on J
 Once a job has finished, the worker also generates a heatmap showing average arrival delay, across all flights matching the origin/destination filter (ignoring the date filter so the full week is visible). The image is returned as a PNG.
  
 ```bash
-curl -X GET localhost:8000/results/{job_id}/image --output heatmap.png
+curl -X GET http://connorfeng-fastapi.coe332.tacc.cloud/results/{job_id}/image --output heatmap.png
 ```
 
 Curl will print a download progress and save the PNG to your current directory.
@@ -382,7 +382,7 @@ docker logs final-project-worker-test
 
 ## Integration Test For Functions That Are API Routes
 
-To test our code, while the container is still running, type in:
+To test our code on a locally run container, while the container is still running, type in:
 
 ```bash
 REDIS_HOST=localhost PYTHONPATH=. uv run pytest
