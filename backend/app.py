@@ -25,7 +25,7 @@ app = FastAPI()
 
 # For now, import local small sample csv to prove the system works
 BASE_DIR=os.path.dirname(__file__)
-DATA_FILE=os.path.join(BASE_DIR,"data","dec_2025_data.csv")
+DATA_FILE=os.path.join(BASE_DIR,"data","sample_data.csv")
 # FLIGHT_URL = "PUT_YOUR_URL_HERE"
 
 """ REDDIS CONNECTION """
